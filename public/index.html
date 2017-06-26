@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>Location App</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+    integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+    crossorigin=""/>
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+
+
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+    integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+    crossorigin=""></script>
+    <script>
+      window.onload = () => {
+        let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg';
+            id = 'mapbox.streets',
+            x = 1,
+            y = 2,
+            z = 1;
+    
+        let mymap = L.map('mapid').setView([51.505, -0.09], 18);
+
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+            accessToken: accessToken
+        }).addTo(mymap);
+      }
+      
+    </script>
+    <div class="map" id="mapid"></div>
+    <div id="root"></div>
+  </body>
+</html>
