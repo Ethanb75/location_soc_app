@@ -36,15 +36,25 @@
     crossorigin=""></script>
     <script>
       window.onload = () => {
-        let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg';
-        let mymap = L.map('mapid').setView([51.505, -0.09], 18);
+        let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg',
+        mymap;
+        navigator.geolocation.getCurrentPosition(function(position) {
+          // do_something(position.coords.latitude, position.coords.longitude);
+          mymap = L.map('mapid').setView([position.coords.latitude, position.coords.longitude], 18);
+          L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+              attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+              maxZoom: 18,
+              id: 'mapbox.streets',
+              accessToken: accessToken
+          }).addTo(mymap);
+        });
+        
+        
+        // let mymap = L.map('mapid').setView([51.505, -0.09], 18);
 
-        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            maxZoom: 18,
-            id: 'mapbox.streets',
-            accessToken: accessToken
-        }).addTo(mymap);
+        
+
+        let marker = L.marker([51.5, -0.09]).addTo(mymap);
       }
       
     </script>
