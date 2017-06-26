@@ -37,11 +37,6 @@
     <script>
       window.onload = () => {
         let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg';
-            id = 'mapbox.streets',
-            x = 1,
-            y = 2,
-            z = 1;
-    
         let mymap = L.map('mapid').setView([51.505, -0.09], 18);
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
