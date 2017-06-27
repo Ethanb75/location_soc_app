@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: flex; 
+  height: 100%;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -19,8 +22,12 @@
 }
 
 .map {
-  height: 60%;
+  /*height: 60%;*/
+  flex-grow: 10;
   width: 100%;
+}
+.nav {
+  flex-grow: 1;
 }
 
 @keyframes App-logo-spin {
