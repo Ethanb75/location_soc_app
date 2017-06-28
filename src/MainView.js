@@ -11,6 +11,10 @@ class MainView extends Component {
         return (
           <Map />
         )
+       case 'area':
+        return (
+          <div>Area</div>
+        )
      }
     }
     return (
