@@ -6,7 +6,7 @@ import Nav from './Nav';
 import Map from './Map';
 import MainView from './MainView';
 // import L from 'leaflet';
-// import Hammer from 'hammerjs';
+import Hammer from 'hammerjs';
 
 //vanilla js stuff
 let mapBtn = document.getElementById('map');
@@ -35,6 +35,13 @@ class App extends Component {
     areaBtn.onclick = () => {
       this.setState({currentView: 'area'})
     }
+
+    //swipe listeners
+    // var ham = new Hammer(document.getElementById('mapid'));
+    // ham.on('swipe', function(ev) {
+    //   console.log('meh!', ev);
+    // });
+    // ham.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
   }
 
   render () {

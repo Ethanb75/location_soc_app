@@ -25,6 +25,7 @@
   /*height: 60%;*/
   flex-grow: 10;
   width: 100%;
+  overflow: hidden;
 }
 .map__view {
   height: 100%;
