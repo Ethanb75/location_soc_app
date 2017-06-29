@@ -71,7 +71,6 @@ class Map extends Component {
     getMap()
   }
   render() {
-    console.log(style)
     switch (this.props.view) {
       case 'map':
         style = {
