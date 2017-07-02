@@ -8,11 +8,9 @@ import MainView from './MainView';
 // import L from 'leaflet';
 import Hammer from 'hammerjs';
 
-//vanilla js stuff
 let mapBtn = document.getElementById('map');
 let profBtn = document.getElementById('prof');
 let areaBtn = document.getElementById('area');
-
 
 
 class App extends Component {
@@ -25,7 +23,9 @@ class App extends Component {
     let profBtn = document.getElementById('prof');
     let areaBtn = document.getElementById('area');
 
-    //listeners were put here because i don't know where they should go and still be able to access state
+    //TODO:
+    //-----------
+    //move on click handlers to nav component and use onClick
     mapBtn.onclick = () => {
       this.setState({currentView: 'map'})
     }
@@ -45,7 +45,6 @@ class App extends Component {
   }
 
   render () {
-
     return (
       <div className="App">
         <MainView view={this.state.currentView} />
