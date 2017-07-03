@@ -4,7 +4,6 @@ import './App.css';
 
 import Nav from './Nav';
 import Map from './Map';
-import MainView from './MainView';
 // import L from 'leaflet';
 import Hammer from 'hammerjs';
 
@@ -47,7 +46,7 @@ class App extends Component {
   render () {
     return (
       <div className="App">
-        <MainView view={this.state.currentView} />
+        <Map view={this.state.currentView} />
         <Nav view={this.state.currentView}/>
       </div>
     );
