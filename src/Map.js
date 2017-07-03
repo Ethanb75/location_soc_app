@@ -4,6 +4,8 @@ import Hammer from 'hammerjs';
 import L from 'leaflet';
 import firebase from './firebase';
 
+let mymap;
+
 //for user, set the user info in the database, but also set the id information for firebase users
 // function dataUp(username, email) {
 //   console.log(firebase.database().ref());
@@ -32,10 +34,59 @@ import firebase from './firebase';
 //   updateStarCount(postElement, snapshot.val());
 // });
 
+//testing variables
+function getPostsAndUpdateMap () {
+  return new Promise((resolve, reject) => {
+    firebase.database().ref('posts').on('value', snapshot => {
+      //return the snapshot
+      resolve(snapshot.val()[1]);
+    })
+  })
+};
+
+
+
+function newPost (snapValue) {
+  let popup = L.popup({autoClose: false});
+  console.log(mymap)
+  popup.setLatLng([snapValue.location.latitude, snapValue.location.longitude])
+       .setContent(() => {
+         let content = document.createElement('div');
+         content.innerHTML = `
+         <div>
+           <p>${snapValue.message}</p>
+           <p><small>by ${snapValue.username}</small></p>
+         </div>
+         `;
+         return content
+       })
+       .openOn(mymap);
+}
+
+function getMapAndUpdate () {
+  let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg';
+
+  getPostsAndUpdateMap().then((val) => {
+     mymap = L.map('mapid').setView([val.location.latitude, val.location.longitude], 14);
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox.streets',
+          accessToken: accessToken
+      }).addTo(mymap);
+
+      return newPost(val);
+  })
+}
+
+
+
 //use a callback or promise to update everyting after
-firebase.database().ref('posts').on('value', snapshot => {
-  console.log(snapshot.val()[1]);
-})
+// firebase.database().ref('posts').on('value', snapshot => {
+  
+//   lat = snapshot.val()[1].location.latitude;
+//   lng = snapshot.val()[1].location.longitude;
+// })
 
 
 
@@ -45,26 +96,46 @@ firebase.database().ref('posts').on('value', snapshot => {
 const mapd = document.getElementById('mapid');
 
 function getMap () {
+  //help:
+  //popup.update()   for updating after async like update from firebase
+
   let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg',
-            popup = L.popup(),
-            mymap;
+            popup = L.popup({className: 'poppy'});
+
+
     navigator.geolocation.getCurrentPosition(function(position) {
       // do_something(position.coords.latitude, position.coords.longitude);
       let latlang = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      mymap = L.map('mapid').setView([position.coords.latitude, position.coords.longitude], 18);
+      let test = {
+        lat: 0,
+        lng: 0
+      }
+      mymap = L.map('mapid').setView(latlang, 14);
+     
+     
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
           maxZoom: 18,
           id: 'mapbox.streets',
           accessToken: accessToken
       }).addTo(mymap);
-      popup
-        .setLatLng(latlang)
-        .setContent("<h2>Your at " + latlang.lat + ", " + latlang.lng + "</h2>")
-        .openOn(mymap);
+      // popup
+      //   .setLatLng(latlang)
+      //   .setContent((layer) => {
+      //     console.log(layer)
+      //     var tango = document.createElement('p');
+      //     tango.innerHTML = `${latlang.lat}, ${latlang.lng}`;
+      //     return tango
+      //   })
+      //   .openOn(mymap);
+
+        // var polygon = L.polygon([
+        //     [51.509, -0.08],
+        //     latlang
+        // ]).addTo(mymap);
     });
 }
 
@@ -89,9 +160,10 @@ class Map extends Component {
 
   componentDidMount () {
     viewRects = document.getElementsByClassName('map')[0].getClientRects()[0];
-    getMap()
-
+    
+    getMapAndUpdate()
   }
+  
   render() {
     switch (this.props.view) {
       case 'map':
