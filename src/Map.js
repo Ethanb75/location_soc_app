@@ -3,8 +3,11 @@ import './App.css';
 import Hammer from 'hammerjs';
 import L from 'leaflet';
 import firebase from './firebase';
+import geolib from 'geolib';
 
-let mymap;
+let mymap,
+    userCrds,
+    areaPosts;
 
 //for user, set the user info in the database, but also set the id information for firebase users
 // function dataUp(username, email) {
@@ -35,55 +38,48 @@ let mymap;
 // });
 
 //testing variables
-function getPostsAndUpdateMap () {
-  return new Promise((resolve, reject) => {
-    firebase.database().ref('posts').on('value', snapshot => {
-      //return the snapshot
-      console.log(snapshot.val().length);
-      resolve(snapshot.val());
-    })
-  })
-};
+// function getPostsAndUpdateMap () {
+//   let promise = new Promise((resolve, reject) => {
+//     firebase.database().ref('posts').once('value', snapshot => {
+//       //return the snapshot
+//       console.log(snapshot.val().length);
+//       resolve(snapshot.val());
+//     })
+//   })
+//   return promise;
+// };
 
 
 
 function newPost (snapValue) {
-  snapValue.forEach((el, index) => {
-    if (index != 0) {
-      let popup = L.popup({autoClose: false});
-      popup.setLatLng([el.location.latitude, el.location.longitude])
-          .setContent(() => {
-            let content = document.createElement('div');
-            content.innerHTML = `
-              <div>
-                <p>${el.message}</p>
-                <p><small>by ${el.username}</small></p>
-              </div>
-            `;
-            return content
-          })
-          .openOn(mymap);
-    }
-  })
+  if (areaPosts) {
+    snapValue.get
+  } else {
+    snapValue.forEach((el, index) => {
+      if (index != 0) {
+        let popup = L.popup({autoClose: false});
+        popup.setLatLng([el.location.latitude, el.location.longitude])
+            .setContent(() => {
+              let content = document.createElement('div');
+              content.innerHTML = `
+                <div>
+                  <p>${el.message}</p>
+                  <p><small>by ${el.username}</small></p>
+                </div>
+              `;
+              return content
+            })
+            .openOn(mymap);
+      }
+    })
+  }
 }
 
-// function makeMap () {
-//   return new Promise((resolve, reject) => {
-//     mymap = L.map('mapid').setView([val.location.latitude, val.location.longitude], 14);
-//       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-//           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-//           maxZoom: 18,
-//           id: 'mapbox.streets',
-//           accessToken: accessToken
-//       }).addTo(mymap);
-//   })
-// }
 
-function getMapAndUpdate () {
+function getMapAndUpdate (callback) {
   let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg';
-
-  getPostsAndUpdateMap().then((val) => {
-    console.log(val)
+     
+     //make a map with the access token and return callback
      mymap = L.map('mapid').setView([0, 0], 3);
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -92,8 +88,7 @@ function getMapAndUpdate () {
           accessToken: accessToken
       }).addTo(mymap);
 
-      return newPost(val);
-  })
+      return callback();
 }
 
 
@@ -114,14 +109,63 @@ let style = {color: 'blue'},
 
 
 class Map extends Component {
+  // state for input screen
+  state = {inputOut: false}
 
   componentDidMount () {
     viewRects = document.getElementsByClassName('map')[0].getClientRects()[0];
     
-    getMapAndUpdate()
+    getMapAndUpdate(() => {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          let crds = position.coords;
+          let range = [
+              {latitude: crds.latitude + .2, longitude: crds.longitude + .2},
+              {latitude: crds.latitude + .2, longitude: crds.longitude + -.2},
+              {latitude: crds.latitude + -.2, longitude: crds.longitude + -.2},
+              {latitude: crds.latitude + -.2, longitude: crds.longitude+ .2}
+          ];
+          let rangeArr = [
+              [crds.latitude + .2, crds.longitude + .2],
+              [crds.latitude + .2, crds.longitude + -.2],
+              [crds.latitude + -.2, crds.longitude + -.2],
+              [crds.latitude + -.2, crds.longitude + .2],
+              [crds.latitude + .2, crds.longitude + .2]
+            ]
+          // let boxPolly = L.polyline(rangeArr, {color: 'whitesmoke', fill: 'blue'}).addTo(mymap);
+          // zoom the map to the polyline
+          let bounds = [[crds.latitude - .25, crds.longitude - .25], [crds.latitude + .25, crds.longitude + .25]];
+          // create an orange rectangle
+          L.rectangle(bounds, {color: "#ff7800", weight: 1}).addTo(mymap);
+          // zoom the map to the rectangle bounds
+          let latlng = L.latLng(crds.latitude, crds.longitude);
+          mymap.flyTo(latlng, 10/*, options*/);
+
+          
+          console.log('Inside Geobox \n', geolib.isPointInside({latitude: crds.latitude, longitude: crds.longitude}, range));
+          firebase.database().ref('posts').on('value', snapshot => {
+            //return the snapshot
+            let val = snapshot.val();
+            newPost(val)
+          })
+        });
+      } else {
+        firebase.database().ref('posts').on('value', snapshot => {
+          //return the snapshot
+          let val = snapshot.val();
+          newPost(val)
+        })
+      }
+      
+    });
+    
+  }
+  postMsg (val) {
+
   }
   
   render() {
+    console.log(this.state)
     switch (this.props.view) {
       case 'map':
         style = {
