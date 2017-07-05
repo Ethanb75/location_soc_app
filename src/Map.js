@@ -7,19 +7,20 @@ import geolib from 'geolib';
 
 let mymap,
     userCrds,
-    areaPosts;
+    areaPosts = [];
 
-//for user, set the user info in the database, but also set the id information for firebase users
-// function dataUp(username, email) {
-//   console.log(firebase.database().ref());
-//   firebase.database().ref('users/' + username).set({
-//     // profile_picture : imageUrl,
-//     username,
-//     email
-//   });
-// };
-// dataUp('billy', 'wow@gmail.com')
-
+window.postMsg = function (username, message, callback) {
+    let postNum = areaPosts.length + 1;
+    firebase.database().ref('posts/' + postNum).set({
+      username,
+      message,
+      location: {
+        latitude: userCrds.latitude,
+        longitude: userCrds.longitude
+      }
+    });
+    return callback;
+  };
 //location will be stored as an object with latitude + longitude as keys
 // function fakePost (message, username, location) {
 //     firebase.database().ref('posts/' + '1').set({
@@ -51,12 +52,15 @@ let mymap,
 
 
 
-function newPost (snapValue) {
-  if (areaPosts) {
-    snapValue.get
+function renderPosts (snapValue) {
+  if (areaPosts.length > 0) {
+    console.log('posts')
+    console.log(snapValue);
   } else {
     snapValue.forEach((el, index) => {
+      console.log(snapValue);
       if (index != 0) {
+        areaPosts[index - 1] = el;
         let popup = L.popup({autoClose: false});
         popup.setLatLng([el.location.latitude, el.location.longitude])
             .setContent(() => {
@@ -71,7 +75,7 @@ function newPost (snapValue) {
             })
             .openOn(mymap);
       }
-    })
+    });
   }
 }
 
@@ -80,7 +84,7 @@ function getMapAndUpdate (callback) {
   let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg';
      
      //make a map with the access token and return callback
-     mymap = L.map('mapid').setView([0, 0], 3);
+     mymap = L.map('mapid', {closePopupOnClick: false}).setView([0, 0], 3);
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
           maxZoom: 18,
@@ -119,6 +123,7 @@ class Map extends Component {
       if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
           let crds = position.coords;
+          userCrds = position.coords;
           let range = [
               {latitude: crds.latitude + .2, longitude: crds.longitude + .2},
               {latitude: crds.latitude + .2, longitude: crds.longitude + -.2},
@@ -141,31 +146,43 @@ class Map extends Component {
           let latlng = L.latLng(crds.latitude, crds.longitude);
           mymap.flyTo(latlng, 10/*, options*/);
 
-          
-          console.log('Inside Geobox \n', geolib.isPointInside({latitude: crds.latitude, longitude: crds.longitude}, range));
+
           firebase.database().ref('posts').on('value', snapshot => {
             //return the snapshot
             let val = snapshot.val();
-            newPost(val)
+            renderPosts(val);
+            console.log(areaPosts);
           })
         });
       } else {
         firebase.database().ref('posts').on('value', snapshot => {
           //return the snapshot
           let val = snapshot.val();
-          newPost(val)
+          console.log('there\'s value here!')
+          renderPosts(val)
         })
       }
       
     });
     
   }
-  postMsg (val) {
-
-  }
+  // postMsg (username, message, callback) {
+  //   firebase.database().ref('posts/' + areaPosts.length + 1).set({
+  //     username,
+  //     message,
+  //     location: {
+  //       latitude: userCrds.latitude,
+  //       longitude: userCrds.longitude
+  //     }
+  //   });
+  //   return callback;
+  // }
   
   render() {
-    console.log(this.state)
+    // console.log(this.state)
+    // postMsg('booboo', 'wow!', function () {
+    //   console.log('posted')
+    // })
     switch (this.props.view) {
       case 'map':
         style = {
@@ -179,6 +196,9 @@ class Map extends Component {
                 Loading...
               </div>
               <button className="map__new">Click me!</button>
+              <div className="newPost">
+
+              </div>
             </div>
           </div>
         );
