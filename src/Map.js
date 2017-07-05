@@ -170,7 +170,11 @@ class Map extends Component {
     
   }
   toggleNewPost (oldState) {
-    return this.setState({inputOut: !oldState})
+    if (oldState.inputOut == true){
+      this.setState({inputOut: false})
+    } else if (oldState.inputOut == false) {
+      this.setState({inputOut: true})
+    }
   }
   // postMsg (username, message, callback) {
   //   firebase.database().ref('posts/' + areaPosts.length + 1).set({
@@ -183,7 +187,6 @@ class Map extends Component {
   //   });
   //   return callback;
   // }
-  
   render() {
     switch (this.props.view) {
       case 'map':
@@ -197,7 +200,7 @@ class Map extends Component {
               <div id="mapid" className="map__view" style={style}>
                 Loading...
               </div>
-              <button className="map__new">Click me!</button>
+              <button className="map__new" onClick={() => this.toggleNewPost(this.state)}>Click me!</button>
               <NewPost isOpen={this.state.inputOut} />
             </div>
           </div>
