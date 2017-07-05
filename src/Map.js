@@ -5,6 +5,8 @@ import L from 'leaflet';
 import firebase from './firebase';
 import geolib from 'geolib';
 
+import NewPost from './NewPost';
+
 let mymap,
     userCrds,
     areaPosts = [];
@@ -38,27 +40,28 @@ window.postMsg = function (username, message, callback) {
 //   updateStarCount(postElement, snapshot.val());
 // });
 
-//testing variables
-// function getPostsAndUpdateMap () {
-//   let promise = new Promise((resolve, reject) => {
-//     firebase.database().ref('posts').once('value', snapshot => {
-//       //return the snapshot
-//       console.log(snapshot.val().length);
-//       resolve(snapshot.val());
-//     })
-//   })
-//   return promise;
-// };
-
-
-
 function renderPosts (snapValue) {
   if (areaPosts.length > 0) {
-    console.log('posts')
-    console.log(snapValue);
+    console.log('posts in post array');
+    let lngth = snapValue.length - 1;
+    areaPosts[areaPosts.length] = snapValue[lngth];
+    console.log('posts now: ', areaPosts);
+    let popup = L.popup({autoClose: false});
+        popup.setLatLng([snapValue[lngth].location.latitude, snapValue[lngth].location.longitude])
+            .setContent(() => {
+              let content = document.createElement('div');
+              content.innerHTML = `
+                <div>
+                  <p>${snapValue[lngth].message}</p>
+                  <p><small>by ${snapValue[lngth].username}</small></p>
+                </div>
+              `;
+              return content
+            })
+            .openOn(mymap);
+
   } else {
     snapValue.forEach((el, index) => {
-      console.log(snapValue);
       if (index != 0) {
         areaPosts[index - 1] = el;
         let popup = L.popup({autoClose: false});
@@ -151,7 +154,7 @@ class Map extends Component {
             //return the snapshot
             let val = snapshot.val();
             renderPosts(val);
-            console.log(areaPosts);
+            // console.log(areaPosts);
           })
         });
       } else {
@@ -166,6 +169,9 @@ class Map extends Component {
     });
     
   }
+  toggleNewPost (oldState) {
+    return this.setState({inputOut: !oldState})
+  }
   // postMsg (username, message, callback) {
   //   firebase.database().ref('posts/' + areaPosts.length + 1).set({
   //     username,
@@ -179,10 +185,6 @@ class Map extends Component {
   // }
   
   render() {
-    // console.log(this.state)
-    // postMsg('booboo', 'wow!', function () {
-    //   console.log('posted')
-    // })
     switch (this.props.view) {
       case 'map':
         style = {
@@ -196,9 +198,7 @@ class Map extends Component {
                 Loading...
               </div>
               <button className="map__new">Click me!</button>
-              <div className="newPost">
-
-              </div>
+              <NewPost isOpen={this.state.inputOut} />
             </div>
           </div>
         );
