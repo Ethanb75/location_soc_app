@@ -49,7 +49,8 @@ class App extends Component {
         if (this.state.cityList === undefined) {
           this.setState({cityList});
         } else {
-          this.setState({cityList});          
+          this.setState({cityList});
+                    
         }
       })
     });
@@ -63,6 +64,9 @@ class App extends Component {
   }
 
   showLoadOrNah (loading) {
+    let cityList = this.state.cityList;
+    // console.log(cityList)
+    
     if(loading === true) {
       return (
         <div className="App">
@@ -76,7 +80,7 @@ class App extends Component {
           <div className="flex">
             <Input />
             <Profile isOpen={this.state.profileOpen} />
-            <Map currentPopupList={this.state.cityList} crds={this.state.crds} />
+            <Map cityList={cityList} crds={this.state.crds} />
           </div>
           <Nav />
         </div>

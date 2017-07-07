@@ -8,44 +8,60 @@ import firebase from './firebase';
 
 export default class Map extends Component {
   state = {
-    mymap: undefined
+    mapUp: false,
+
   }
-  renderMap (callback) {
-    let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg';
+  renderMap (crds, callback) {
+    if (this.state.mapUp === false) {
+      let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg';
 
-    // console.log(mapd)
-    let mymap = L.map('mapid', {closePopupOnClick: false}).setView([0, 0], 5);
-      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-          attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-          maxZoom: 14,
-          id: 'mapbox.streets',
-          accessToken
-      }).addTo(mymap);
+      // console.log(mapd)
+      let mymap = L.map('mapid', {closePopupOnClick: false}).setView([crds.latitude, crds.longitude], 9);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 14,
+            id: 'mapbox.streets',
+            accessToken
+        }).addTo(mymap);
 
-      this.setState({mymap})
+        this.setState({mapUp: true})
 
-      return callback(mymap);
+        return callback(mymap);
+    }
   }
-  renderPosts (uidList) {
-    uidList.forEach(function(element) {
-      console.log(element);
+  renderPosts (uidList, mymap) {
+    uidList.forEach((el, i) => {
+      firebase.database().ref(`posts/${el}`).on('value', snapshot => {
+        let post = snapshot.val();
+        let marker = L.marker([post.location.latitude, post.location.longitude]).addTo(mymap);
+        
+        //bind the popup with the post
+        marker.bindPopup(`<p>${post.message}</p>`)
+      })
     });
   }
   
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps.crds)
-  //   // if (nextProps.crds !== undefined) {
-  //   //   this.renderMap(this.props.crds, function () {
-  //   //     console.log('about to mount');
-  //   //   })
-  //   // }
-  // }
-  componentDidMount () {
-    console.log(this.props.crds)
-    this.renderMap(mymap => {
-      console.log(mymap)
-    });
+  componentDidUpdate(prevProps, prevState) {
+    //if cityList and crds are both populated then render the map and posts
+    if (this.props.crds !== undefined) {
+      let crds = this.props.crds;
+      if (this.props.cityList !== undefined) {
+        let uidList = this.props.cityList
+        //bind our this to that
+        let that = this;
+        
+        this.renderMap(crds, function (mymap) {
+          that.renderPosts(uidList, mymap)
+        })
+      }
+    }
   }
+  // componentDidMount () {
+  //   console.log(this.props.crds)
+  //   this.renderMap(mymap => {
+  //     console.log(mymap)
+  //   });
+  // }
   render () {
     return (
     <div className="mapWrap">
