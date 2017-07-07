@@ -48,6 +48,7 @@ class App extends Component {
         let cityList = snapshot.val();
         if (this.state.cityList === undefined) {
           this.setState({cityList});
+          //if no city currently will return null not undefined
         } else {
           this.setState({cityList});
                     
@@ -62,6 +63,7 @@ class App extends Component {
       }
     )
   }
+
 
   showLoadOrNah (loading) {
     let cityList = this.state.cityList;

@@ -9,6 +9,7 @@ import firebase from './firebase';
 export default class Map extends Component {
   state = {
     mapUp: false,
+    mymap: undefined
 
   }
   renderMap (crds, callback) {
@@ -24,15 +25,19 @@ export default class Map extends Component {
             accessToken
         }).addTo(mymap);
 
-        this.setState({mapUp: true})
+        this.setState({mapUp: true});
+        this.setState({mymap})
 
         return callback(mymap);
+    } else {
+      return callback(this.state.mymap);
     }
   }
   renderPosts (uidList, mymap) {
     uidList.forEach((el, i) => {
       firebase.database().ref(`posts/${el}`).on('value', snapshot => {
         let post = snapshot.val();
+        // console.log(snapshot.val())
         let marker = L.marker([post.location.latitude, post.location.longitude]).addTo(mymap);
         
         //bind the popup with the post
@@ -49,9 +54,11 @@ export default class Map extends Component {
         let uidList = this.props.cityList
         //bind our this to that
         let that = this;
-        
+        console.log(prevProps.cityList > uidList);
         this.renderMap(crds, function (mymap) {
-          that.renderPosts(uidList, mymap)
+          if (uidList !== null) {
+            that.renderPosts(uidList, mymap)
+          }
         })
       }
     }
