@@ -1,55 +1,95 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import firebase from './firebase';
 
+//import components
+import Input from './Input';
+import Profile from './Profile';
 import Nav from './Nav';
 import Map from './Map';
-// import L from 'leaflet';
-import Hammer from 'hammerjs';
 
-let mapBtn = document.getElementById('map');
-let profBtn = document.getElementById('prof');
-let areaBtn = document.getElementById('area');
-
+import './App.css';
 
 class App extends Component {
-  //set default state
-   state = ({currentView: 'map'})
+  state = {
+    profileOpen: false,
+    inputOpen: false,
+    isLoading: true,
+    initialFBLoad: true,
+    city: undefined,
+    cityList: undefined
+  }
+  getPermision (callback) {
+    if ('navigator' in window) {
+      navigator.geolocation.getCurrentPosition(location => {
+        this.setState({
+          isLoading: false
+        });
+      
+        let crds = location.coords;
 
-  //3 views, big area posts, map area posts, profile
+        return callback(crds)
+      })
+    }
+  }
+  findLocation (crds) {
+    let key =  'AIzaSyCFQPdbxrIDRAJqXzWrcLO840z299fr418';
+    
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${crds.latitude},${crds.longitude}&key=AIzaSyCFQPdbxrIDRAJqXzWrcLO840z299fr418`).then(function(response) {
+      return response.json();
+    }).then(function(json) {
+      return json.results[0].address_components[2].long_name;
+    }).then(city => {
+      this.setState({city});
+      firebase.database().ref(`cities/${city}`).on('value', snapshot => {
+        //return the snapshot
+        let cityList = snapshot.val();
+        if (this.state.cityList === undefined) {
+          this.setState({cityList});
+        } else {
+          this.setState({cityList});          
+        }
+        console.log(this.state.cityList);
+      })
+    });
+  }
   componentDidMount () {
-    let mapBtn = document.getElementById('map');
-    let profBtn = document.getElementById('prof');
-    let areaBtn = document.getElementById('area');
-
-    //TODO:
-    //-----------
-    //move on click handlers to nav component and use onClick
-    mapBtn.onclick = () => {
-      this.setState({currentView: 'map'})
-    }
-    profBtn.onclick = () => {
-      this.setState({currentView: 'prof'})
-    }
-    areaBtn.onclick = () => {
-      this.setState({currentView: 'area'})
-    }
-
-    //swipe listeners
-    // var ham = new Hammer(document.getElementById('mapid'));
-    // ham.on('swipe', function(ev) {
-    //   console.log('meh!', ev);
-    // });
-    // ham.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
+    this.getPermision(
+      crds => {
+        this.findLocation(crds)
+      }
+    )
   }
 
-  render () {
-    return (
-      <div className="App">
-        <Map view={this.state.currentView} />
-        <Nav view={this.state.currentView}/>
-      </div>
-    );
+  showLoadOrNah (loading) {
+    if(loading) {
+      console.log('loading!')
+      return (
+        <div className="App">
+          <div style="display: flex; justify-content: center; align-items: center">Loading . . .</div>
+          <Nav />
+        </div>
+      )
+    } else {
+      console.log('no more load')
+      return (
+        <div className="App">
+          <div className="flex">
+            <Input />
+            <Profile isOpen={this.state.profileOpen} />
+            <Map currentPopupList={this.state.cityList} />
+          </div>
+          <Nav />
+        </div>
+        
+      )
+    }
+  }
+
+
+
+  render() {
+    return this.showLoadOrNah();
   }
 }
 

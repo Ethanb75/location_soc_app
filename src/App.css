@@ -1,8 +1,57 @@
-.App {
-  text-align: center;
-  display: flex; 
+.App, html, body {
+  position: relative;
   height: 100%;
+}
+
+.App {
+  display: flex;
   flex-direction: column;
+}
+
+.Map {
+  width: 100%;
+}
+
+.flex {
+  flex-grow: 9;
+  display: flex;
+  position: relative;
+}
+
+.Nav {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.profileBtn {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.mapBtn {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.Input, .Profile {
+  position: absolute;
+}
+
+.Input {
+  height: 50vw;
+  width: 100%;
+}
+
+.Profile {
+  width: 50vw;
+  height: 100%;
 }
 
 .App-logo {
@@ -21,49 +70,8 @@
   font-size: large;
 }
 
-.active {
-  font-weight: bold;
-  background-color: wheat;
-}
-
-.map {
-  /*height: 60%;*/
-  flex-grow: 10;
-  width: 100%;
-  overflow: hidden;
-}
-
-.map__view {
-  height: 100%;
-}
-
-.map__new {
-  padding: .5rem;
-  background-color: burlywood;
-  position: absolute;
-  top: 80vh;
-  right: 10px;
-}
-
-.wrap {
-  height: 100%
-}
-
-.nav {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: row;
-}
-
-.nav__map, .nav__area, .nav__profile {
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
