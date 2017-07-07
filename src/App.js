@@ -17,6 +17,7 @@ class App extends Component {
     isLoading: true,
     initialFBLoad: true,
     city: undefined,
+    crds: undefined,
     cityList: undefined
   }
   getPermision (callback) {
@@ -27,6 +28,7 @@ class App extends Component {
         });
       
         let crds = location.coords;
+        this.setState({crds});
 
         return callback(crds)
       })
@@ -49,7 +51,6 @@ class App extends Component {
         } else {
           this.setState({cityList});          
         }
-        console.log(this.state.cityList);
       })
     });
   }
@@ -62,8 +63,7 @@ class App extends Component {
   }
 
   showLoadOrNah (loading) {
-    if(loading) {
-      console.log('loading!')
+    if(loading === true) {
       return (
         <div className="App">
           <div style="display: flex; justify-content: center; align-items: center">Loading . . .</div>
@@ -71,13 +71,12 @@ class App extends Component {
         </div>
       )
     } else {
-      console.log('no more load')
       return (
         <div className="App">
           <div className="flex">
             <Input />
             <Profile isOpen={this.state.profileOpen} />
-            <Map currentPopupList={this.state.cityList} />
+            <Map currentPopupList={this.state.cityList} crds={this.state.crds} />
           </div>
           <Nav />
         </div>

@@ -9,6 +9,11 @@
 }
 
 .Map {
+  height: 100%;
+  position: relative;
+}
+
+.mapWrap {
   width: 100%;
 }
 
