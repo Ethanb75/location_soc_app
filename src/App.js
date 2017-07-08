@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import firebase from './firebase';
+import fontAwesome from './css/font-awesome.min.css'
 
 //import components
 import Input from './Input';
@@ -77,12 +78,25 @@ class App extends Component {
         </div>
       )
     } else {
+      const btnStyle = {
+          border: 'none',
+          display: 'inline',
+          position: 'absolute',
+          zIndex: '1000',
+          right: '8px',
+          bottom: '8px',
+          background: 'transparent',
+          cursor: 'pointer'
+        }
       return (
         <div className="App">
           <div className="flex">
-            <Input />
+            <Input isOpen={this.state.inputOpen} />
             <Profile isOpen={this.state.profileOpen} />
             <Map cityList={cityList} crds={this.state.crds} />
+            <button style={btnStyle} onClick={() => this.setState({inputOpen: !this.state.inputOpen})}>
+              <i className="fa fa-plus-square fa-3x" aria-hidden="true"></i>
+            </button>
           </div>
           <Nav />
         </div>

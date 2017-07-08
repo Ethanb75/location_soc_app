@@ -36,6 +36,8 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  /*background-color: #48b1bf;*/
+  background-color: #36d1dc
 }
 
 .mapBtn {
@@ -44,6 +46,8 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  /*background-color: #06beb6;*/
+  background-color: #5b86e5;
 }
 
 .Input, .Profile {
