@@ -10,7 +10,6 @@ export default class Map extends Component {
   state = {
     mapUp: false,
     mymap: undefined
-
   }
   renderMap (crds, callback) {
     if (this.state.mapUp === false) {
@@ -33,15 +32,38 @@ export default class Map extends Component {
       return callback(this.state.mymap);
     }
   }
+
+  //TODO: make an update one
   renderPosts (uidList, mymap) {
     uidList.forEach((el, i) => {
       firebase.database().ref(`posts/${el}`).on('value', snapshot => {
         let post = snapshot.val();
         // console.log(snapshot.val())
-        let marker = L.marker([post.location.latitude, post.location.longitude]).addTo(mymap);
+        let checkPost = document.querySelector(`[data-uid="${el}"]`);
+        if (checkPost === null) {
+          let marker = L.marker([post.location.latitude, post.location.longitude]).addTo(mymap);
+
+          marker.bindPopup(`
+            <div class="post" data-uid="${el}">
+              <small>
+                ${post.username}
+              </small>
+              <p class="postBody">
+                ${post.message}
+              </p>
+              <div class="likesWrap">
+                <div class="likes">${post.likes}</div>
+                <div class="likeBtn">
+                  <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          `);
+          } else {
+            checkPost.children[2].children[0].textContent = post.likes;
+          }
+
         
-        //bind the popup with the post
-        marker.bindPopup(`<p>${post.message}</p>`)
       })
     });
   }

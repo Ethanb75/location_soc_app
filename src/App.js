@@ -6,7 +6,7 @@ import fontAwesome from './css/font-awesome.min.css'
 //import components
 import Input from './Input';
 import Profile from './Profile';
-import Nav from './Nav';
+// import Nav from './Nav';
 import Map from './Map';
 
 import './App.css';
@@ -62,7 +62,7 @@ class App extends Component {
       crds => {
         this.findLocation(crds)
       }
-    )
+    );
   }
 
 
@@ -74,7 +74,17 @@ class App extends Component {
       return (
         <div className="App">
           <div style="display: flex; justify-content: center; align-items: center">Loading . . .</div>
-          <Nav />
+          <div className="Nav">
+            <div className="mapBtn">
+              <i className="fa fa-globe fa-3x" aria-hidden="true"></i>
+            </div>
+            <div className="hamburgerBtn">
+              <i className="fa fa-bars fa-3x" aria-hidden="true"></i>
+            </div>
+            <div className="profileBtn">
+              <i className="fa fa-user fa-3x" aria-hidden="true"></i>
+            </div>
+          </div>
         </div>
       )
     } else {
@@ -94,11 +104,18 @@ class App extends Component {
             <Input isOpen={this.state.inputOpen} />
             <Profile isOpen={this.state.profileOpen} />
             <Map cityList={cityList} crds={this.state.crds} />
-            <button style={btnStyle} onClick={() => this.setState({inputOpen: !this.state.inputOpen})}>
-              <i className="fa fa-plus-square fa-3x" aria-hidden="true"></i>
-            </button>
           </div>
-          <Nav />
+          <div className="Nav">
+            <div className="mapBtn">
+              <i className="fa fa-user fa-3x" aria-hidden="true"></i>
+            </div>
+            <div className="hamburgerBtn">
+              <i className="fa fa-comments fa-3x" onClick={() => this.setState({inputOpen: !this.state.inputOpen})} aria-hidden="true"></i>
+            </div>
+            <div className="profileBtn">
+              <i className="fa fa-globe fa-3x" aria-hidden="true"></i>
+            </div>
+          </div>
         </div>
         
       )
