@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 export default class Input extends Component {
   style__out = {
-    zIndex: '1000',
+    zIndex: '10000',
     background: 'wheat',
     transform: 'translateY(0)',
     transition: 'all .5s ease-out',
   }
   style__hide = {
-    zIndex: '1000',
+    zIndex: '10000',
     background: 'wheat',
     transform: 'translateY(-100%)',
     transition: 'all .5s ease-out'
@@ -20,7 +20,7 @@ export default class Input extends Component {
       return (
         <div id="input" className="Input" style={this.style__out}>
           <label htmlFor="message" className="inputLabel">What's up?</label>
-          <textarea name="message" id="" style={{
+          <textarea name="message" style={{
             display: 'block',
             padding: '1rem',
             width: '100%',
@@ -41,7 +41,7 @@ export default class Input extends Component {
       return (
         <div id="input" className="Input" style={this.style__hide}>
           <label htmlFor="message" className="inputLabel">What's up?</label>
-          <textarea name="message" id="" style={{
+          <textarea name="message" style={{
             display: 'block',
             padding: '1rem',
             boxSizing: 'border-box',
