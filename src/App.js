@@ -38,7 +38,7 @@ class App extends Component {
   findLocation (crds) {
     let key =  'AIzaSyCFQPdbxrIDRAJqXzWrcLO840z299fr418';
     
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${crds.latitude},${crds.longitude}&key=AIzaSyCFQPdbxrIDRAJqXzWrcLO840z299fr418`).then(function(response) {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng=${crds.latitude},${crds.longitude}&key=AIzaSyCFQPdbxrIDRAJqXzWrcLO840z299fr418`).then(function(response) {
       return response.json();
     }).then(function(json) {
       return json.results[0].address_components[2].long_name;
