@@ -76,6 +76,12 @@ class App extends Component {
         this.findLocation(crds)
       }
     );
+    setTimeout(() => {
+      if (!this.state.crds) {
+        alert('asking again')
+        this.askAgain()
+      }
+    }, 8000)
   }
 
 
@@ -86,14 +92,6 @@ class App extends Component {
     if(this.state.isLoading === true) {
       return (
         <div className="App">
-          { () => {
-            setTimeout(() => {
-              if (!this.state.crds) {
-                alert('asking again')
-                this.askAgain()
-              }
-            }, 5000)
-          } }
           <div style={{
             display: 'flex',
             position: 'absolute',
