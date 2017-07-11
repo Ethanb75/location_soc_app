@@ -24,7 +24,7 @@ class App extends Component {
   getPermision (callback) {
     if ('navigator' in window) {
       alert('nav: ' + window.navigator.geolocation);
-      navigator.geolocation.getCurrentPosition(location => {
+      navigator.geolocation.getCurrentPosition(function (location) {
         alert('here: ' + location.coords.latitude + ', ' + location.coords.longitude);
         this.setState({
           isLoading: false
