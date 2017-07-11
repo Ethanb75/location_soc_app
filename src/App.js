@@ -107,13 +107,18 @@ class App extends Component {
           </div>
           <div className="Nav">
             <div className="mapBtn">
-              <i className="fa fa-user fa-3x" aria-hidden="true"></i>
+              <i className="fa fa-user fa-3x" onClick={(el) => el.target.classList.add('active_btn')} aria-hidden="true"></i>
             </div>
             <div className="hamburgerBtn">
-              <i className="fa fa-comments fa-3x" onClick={() => this.setState({inputOpen: !this.state.inputOpen})} aria-hidden="true"></i>
+              <i className="fa fa-comments fa-3x" onClick={
+                  (el) => {
+                    this.setState({ inputOpen: !this.state.inputOpen });
+                    el.target.classList.add('active_btn')
+                  }
+              } aria-hidden="true"></i>
             </div>
             <div className="profileBtn">
-              <i className="fa fa-globe fa-3x" aria-hidden="true"></i>
+              <i className="fa fa-globe fa-3x" onClick={(el) => el.target.classList.add('active_btn')} aria-hidden="true"></i>
             </div>
           </div>
         </div>

@@ -33,7 +33,6 @@ export default class Map extends Component {
     }
   }
 
-  //TODO: make an update one
   renderPosts (uidList, mymap) {
     uidList.forEach((el, i) => {
       firebase.database().ref(`posts/${el}`).on('value', snapshot => {
