@@ -19,26 +19,28 @@ export default class Input extends Component {
     if (this.props.isOpen === true) {
       return (
         <div id="input" className="Input" style={this.style__out}>
-          <label htmlFor="message">What's up?</label>
+          <label htmlFor="message" className="inputLabel">What's up?</label>
           <textarea name="message" id="" style={{
             display: 'block',
             padding: '1rem',
             width: '100%',
-            height: '100%',
+            height: '85%',
             border: 'none',
             boxSizing: 'border-box',
             resize: 'none',
             transition: 'all 1s ease',
             opacity: '1'
           }} placeholder="I'm having a blast doing..."></textarea>
-          <button>Send Message</button>
-          <button>Cancel</button>
+          <div className="InputBtns">
+            <button>Send Message</button>
+            <button>Cancel</button>
+          </div>
         </div>
       )
     } else {
       return (
         <div id="input" className="Input" style={this.style__hide}>
-          <label htmlFor="message">What's up?</label>
+          <label htmlFor="message" className="inputLabel">What's up?</label>
           <textarea name="message" id="" style={{
             display: 'block',
             padding: '1rem',
@@ -50,8 +52,10 @@ export default class Input extends Component {
             transition: 'all 1s ease',
             opacity: '0'
           }} placeholder="I'm having a blast doing..."></textarea>
-          <button>Send Message</button>
-          <button>Cancel</button>
+          <div className="InputBtns">
+            <button>Send Message</button>
+            <button>Cancel</button>
+          </div>
         </div>
       )
     }
