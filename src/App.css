@@ -71,7 +71,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
 }
 
 .mapBtn {
@@ -79,7 +78,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
 }
 
 .Input, .Profile {

@@ -24,8 +24,8 @@ class App extends Component {
   getPermision (callback) {
     if ('navigator' in window) {
       
-      window.navigator.geolocation.getCurrentPosition(function (location) {
-        alert('here: ' + location.coords.latitude + ', ' + location.coords.longitude);
+      navigator.geolocation.getCurrentPosition((location) => {
+        // alert('here: ' + location.coords.latitude + ', ' + location.coords.longitude);
         this.setState({
           isLoading: false
         });
@@ -60,7 +60,7 @@ class App extends Component {
     });
   }
   componentDidMount () {
-    this.getPermision(
+    window.onload = this.getPermision(
       crds => {
         this.findLocation(crds)
       }
