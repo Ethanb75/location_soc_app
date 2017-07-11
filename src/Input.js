@@ -22,6 +22,7 @@ export default class Input extends Component {
           <label htmlFor="message">What's up?</label>
           <textarea name="message" id="" style={{
             display: 'block',
+            padding: '1rem',
             width: '100%',
             height: '100%',
             border: 'none',
@@ -29,7 +30,9 @@ export default class Input extends Component {
             resize: 'none',
             transition: 'all 1s ease',
             opacity: '1'
-          }}></textarea>
+          }} placeholder="I'm having a blast doing..."></textarea>
+          <button>Send Message</button>
+          <button>Cancel</button>
         </div>
       )
     } else {
@@ -38,14 +41,17 @@ export default class Input extends Component {
           <label htmlFor="message">What's up?</label>
           <textarea name="message" id="" style={{
             display: 'block',
+            padding: '1rem',
+            boxSizing: 'border-box',
             width: '100%',
             height: '100%',
             border: 'none',
-            boxSizing: 'border-box',
             resize: 'none',
             transition: 'all 1s ease',
             opacity: '0'
-          }}></textarea>
+          }} placeholder="I'm having a blast doing..."></textarea>
+          <button>Send Message</button>
+          <button>Cancel</button>
         </div>
       )
     }
