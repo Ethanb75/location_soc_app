@@ -23,8 +23,9 @@ class App extends Component {
   }
   getPermision (callback) {
     if (navigator.geolocation) {
-      
-      navigator.geolocation.getCurrentPosition(location => {
+      alert('yes nav and geo');
+
+      const yah = location => {
         // alert('here: ' + location.coords.latitude + ', ' + location.coords.longitude);
         this.setState({
           isLoading: false
@@ -34,9 +35,13 @@ class App extends Component {
         alert(`${crds.latitude}, ${crds.longitude}`);
 
         return callback(crds)
-      }, err=> {
-        alert("error: ", err.message);
-      })
+      }
+
+      const no = err => {
+        alert(`error (${err.code}): ${err.message}`);
+      }
+
+      navigator.geolocation.getCurrentPosition(yah, no)
     }
   }
   findLocation (crds) {
