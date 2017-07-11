@@ -61,8 +61,17 @@ class App extends Component {
       })
     });
   }
+
+  askAgain () {
+    this.getPermision(
+      crds => {
+        this.findLocation(crds)
+      }
+    );
+  }
+
   componentDidMount () {
-    window.onload = this.getPermision(
+    this.getPermision(
       crds => {
         this.findLocation(crds)
       }
@@ -77,6 +86,14 @@ class App extends Component {
     if(this.state.isLoading === true) {
       return (
         <div className="App">
+          { () => {
+            setTimeout(() => {
+              if (!this.state.crds) {
+                alert('asking again')
+                this.askAgain()
+              }
+            }, 5000)
+          } }
           <div style={{
             display: 'flex',
             position: 'absolute',
