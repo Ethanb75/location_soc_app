@@ -77,18 +77,14 @@ class App extends Component {
     if(this.state.isLoading === true) {
       return (
         <div className="App">
-          <div style="display: flex; justify-content: center; align-items: center">Loading . . .</div>
-          <div className="Nav">
-            <div className="mapBtn">
-              <i className="fa fa-globe fa-3x" aria-hidden="true"></i>
-            </div>
-            <div className="hamburgerBtn">
-              <i className="fa fa-bars fa-3x" aria-hidden="true"></i>
-            </div>
-            <div className="profileBtn">
-              <i className="fa fa-user fa-3x" aria-hidden="true"></i>
-            </div>
-          </div>
+          <div style={{
+            display: 'flex',
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: '40px'
+
+          }}>Loading . . .</div>
         </div>
       )
     } else {
