@@ -35,7 +35,7 @@ class App extends Component {
 
         return callback(crds)
       }, err=> {
-        alert("error: ", err);
+        alert("error: ", err.message);
       })
     }
   }
