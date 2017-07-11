@@ -23,12 +23,12 @@ class App extends Component {
   }
   getPermision (callback) {
     if ('navigator' in window) {
-      alert('navigator.geo, ', navigator.geolocation);
+      alert('nav: ' + window.navigator.geolocation);
       navigator.geolocation.getCurrentPosition(location => {
+        alert('here: ' + location.coords.latitude + ', ' + location.coords.longitude);
         this.setState({
           isLoading: false
         });
-         alert('here');
         let crds = location.coords;
         this.setState({crds});
         alert(`${crds.latitude}, ${crds.longitude}`);
