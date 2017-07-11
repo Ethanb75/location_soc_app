@@ -22,9 +22,9 @@ class App extends Component {
     cityList: undefined
   }
   getPermision (callback) {
-    if ('navigator' in window) {
+    if (navigator.geolocation) {
       
-      navigator.geolocation.getCurrentPosition((location) => {
+      navigator.geolocation.getCurrentPosition(location => {
         // alert('here: ' + location.coords.latitude + ', ' + location.coords.longitude);
         this.setState({
           isLoading: false
@@ -34,6 +34,8 @@ class App extends Component {
         alert(`${crds.latitude}, ${crds.longitude}`);
 
         return callback(crds)
+      }, err=> {
+        alert("error: ", err);
       })
     }
   }
@@ -68,11 +70,11 @@ class App extends Component {
   }
 
 
-  showLoadOrNah (loading) {
+  showLoadOrNah () {
     let cityList = this.state.cityList;
     // console.log(cityList)
     
-    if(loading === true) {
+    if(this.state.isLoading === true) {
       return (
         <div className="App">
           <div style="display: flex; justify-content: center; align-items: center">Loading . . .</div>
