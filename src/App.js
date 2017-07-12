@@ -22,8 +22,10 @@ class App extends Component {
     cityList: undefined
   }
   getPermision (callback) {
+    // let that = this;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(location => {
+        
         this.setState({
           isLoading: false
         });
@@ -112,7 +114,7 @@ class App extends Component {
       return (
         <div className="App">
           <div className="flex">
-            <Input isOpen={this.state.inputOpen} />
+            <Input isOpen={this.state.inputOpen} city={this.state.city} crds={this.state.crds} cityList={this.state.cityList}/>
             <Profile isOpen={this.state.profileOpen} />
             <Map cityList={cityList} crds={this.state.crds} />
           </div>

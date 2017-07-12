@@ -24,6 +24,8 @@ export default class Map extends Component {
             accessToken
         }).addTo(mymap);
 
+        mymap.on('popupopen', () => console.log('new Popup'))
+
         this.setState({mapUp: true});
         this.setState({mymap})
 
@@ -34,14 +36,16 @@ export default class Map extends Component {
   }
 
   renderPosts (uidList, mymap) {
+    
     uidList.forEach((el, i) => {
       firebase.database().ref(`posts/${el}`).on('value', snapshot => {
         let post = snapshot.val();
         // console.log(snapshot.val())
         let checkPost = document.querySelector(`[data-uid="${el}"]`);
         if (checkPost === null) {
-          let marker = L.marker([post.location.latitude, post.location.longitude]).addTo(mymap);
-
+          let marker = L
+                        .marker([post.location.latitude, post.location.longitude])
+                        .addTo(mymap);
           marker.bindPopup(`
             <div class="post" data-uid="${el}">
               <small>
@@ -58,6 +62,12 @@ export default class Map extends Component {
               </div>
             </div>
           `);
+          // marker.on('click', function () {
+          //   
+          //   if (!marker.isPopupOpen()) {
+          //     marker.remove();
+          //   }
+          // });
           } else {
             checkPost.children[2].children[0].textContent = post.likes;
           }
@@ -75,7 +85,6 @@ export default class Map extends Component {
         let uidList = this.props.cityList
         //bind our this to that
         let that = this;
-        console.log(prevProps.cityList > uidList);
         this.renderMap(crds, function (mymap) {
           if (uidList !== null) {
             that.renderPosts(uidList, mymap)

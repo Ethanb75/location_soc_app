@@ -97,13 +97,19 @@
   flex-direction: column;
 }
 
+.Input form {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
 .InputBtns {
   display: flex;
   flex-grow: 1;
   flex-direction: row;
 }
 
-.InputBtns button {
+.InputBtns button, .InputBtns [type="submit"] {
   flex-grow: 1;
 }
 
