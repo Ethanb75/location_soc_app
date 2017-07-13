@@ -31,13 +31,13 @@ export default class Input extends Component {
   
   style__out = {
     zIndex: '10000',
-    background: 'wheat',
+    background: '#5B7789',
     transform: 'translateY(0)',
     transition: 'all .5s ease-out',
   }
   style__hide = {
     zIndex: '10000',
-    background: 'wheat',
+    background: '#5B7789',
     transform: 'translateY(-100%)',
     transition: 'all .5s ease-out'
   }
@@ -53,7 +53,7 @@ export default class Input extends Component {
               display: 'block',
               padding: '1rem',
               width: '100%',
-              height: '85%',
+              flexGrow: '28',
               border: 'none',
               boxSizing: 'border-box',
               resize: 'none',
@@ -77,7 +77,7 @@ export default class Input extends Component {
               padding: '1rem',
               boxSizing: 'border-box',
               width: '100%',
-              height: '100%',
+              flexGrow: '30',
               border: 'none',
               resize: 'none',
               transition: 'all 1s ease',
