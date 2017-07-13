@@ -83,6 +83,16 @@ class App extends Component {
   }
 
 
+  toggleActive (target) {
+    let old = document.getElementsByClassName('active_btn')[0];
+    if (target.classList.contains('active_btn')) {
+      return;
+    } else {
+      target.classList.add('active_btn');
+      old.classList.remove('active_btn');
+    }
+  }
+
   showLoadOrNah () {
     let cityList = this.state.cityList;
     // console.log(cityList)
@@ -120,18 +130,18 @@ class App extends Component {
           </div>
           <div className="Nav">
             <div className="mapBtn">
-              <i className="fa fa-user fa-3x" onClick={(el) => el.target.classList.add('active_btn')} aria-hidden="true"></i>
+              <i className="fa fa-user fa-3x" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
             </div>
-            <div className="hamburgerBtn">
+            <div className="msgBtn">
               <i className="fa fa-comments fa-3x" onClick={
-                  (el) => {
+                  el => {
                     this.setState({ inputOpen: !this.state.inputOpen });
-                    el.target.classList.add('active_btn')
+                    this.toggleActive(el.target)
                   }
               } aria-hidden="true"></i>
             </div>
             <div className="profileBtn">
-              <i className="fa fa-globe fa-3x" onClick={(el) => el.target.classList.add('active_btn')} aria-hidden="true"></i>
+              <i className="fa fa-globe fa-3x active_btn" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
             </div>
           </div>
         </div>

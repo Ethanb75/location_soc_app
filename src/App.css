@@ -21,6 +21,53 @@
   width: 300px;
 }
 
+
+
+
+/*Nav styles*/
+
+.active_btn {
+  border-bottom: 4px solid whitesmoke;
+  color: whitesmoke;
+}
+
+.Nav i {
+  cursor: pointer;
+}
+
+.Nav {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  background-color: #04d3bc;
+}
+
+
+
+.profileBtn, .mapBtn, .msgBtn {
+  flex-grow: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .2s ease-out;
+}
+
+.mapBtn {
+  background: #967372;
+}
+
+.msgBtn {
+  background: #5B7789;
+}
+
+.profileBtn {
+  background: #D5D583;
+}
+
+
+
+
+
 .App, html, body {
   position: relative;
   height: 100%;
@@ -48,37 +95,9 @@
   position: relative;
 }
 
-.Nav i {
-  cursor: pointer;
-}
 
-.Nav {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: row;
-  background-color: #04d3bc;
-}
 
-.hamburgerBtn {
-  flex-grow: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.profileBtn {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.mapBtn {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .Input, .Profile {
   position: absolute;

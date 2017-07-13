@@ -16,7 +16,7 @@ export default class Map extends Component {
       let accessToken = 'pk.eyJ1IjoiZXRoYW5iNzUiLCJhIjoiY2o0ZWphbDVwMHhqZDMzczRpc3l1dTNldyJ9.O7z49Byr-cdTCriCytnvtg';
 
       // console.log(mapd)
-      let mymap = L.map('mapid', {closePopupOnClick: false}).setView([crds.latitude, crds.longitude], 9);
+      let mymap = L.map('mapid').setView([crds.latitude, crds.longitude], 9);
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
             maxZoom: 14,
@@ -62,10 +62,13 @@ export default class Map extends Component {
               </div>
             </div>
           `);
-          // marker.on('click', function () {
-          //   
-          //   if (!marker.isPopupOpen()) {
-          //     marker.remove();
+          // marker.on('click', function (e) {
+          //   if (e.target.seen == true) {
+          //     this.remove();
+          //   } else {
+          //     // console.log(e.target)
+          //     e.target.setOpacity(.5)
+          //     // e.target.setAttribute('seen', 'true');
           //   }
           // });
           } else {
