@@ -62,15 +62,9 @@ export default class Map extends Component {
               </div>
             </div>
           `);
-          // marker.on('click', function (e) {
-          //   if (e.target.seen == true) {
-          //     this.remove();
-          //   } else {
-          //     // console.log(e.target)
-          //     e.target.setOpacity(.5)
-          //     // e.target.setAttribute('seen', 'true');
-          //   }
-          // });
+          marker.on('click', function (e) {
+            e.target.opacity = .4
+          });
           } else {
             checkPost.children[2].children[0].textContent = post.likes;
           }
@@ -81,7 +75,17 @@ export default class Map extends Component {
   }
   
   componentDidUpdate(prevProps, prevState) {
-    //if cityList and crds are both populated then render the map and posts
+    if (this.state.mymap !== undefined) {
+      let mymap = this.state.mymap;
+      
+      // mymap.eachLayer(function (layer) {
+      //   console.log(layer)
+      // })
+    }
+
+
+
+    // if cityList and crds are both populated then render the map and posts
     if (this.props.crds !== undefined) {
       let crds = this.props.crds;
       if (this.props.cityList !== undefined) {
@@ -96,12 +100,16 @@ export default class Map extends Component {
       }
     }
   }
-  // componentDidMount () {
-  //   console.log(this.props.crds)
-  //   this.renderMap(mymap => {
-  //     console.log(mymap)
-  //   });
-  // }
+  componentDidMount () {
+    // let map = this.state.mymap;
+    // setTimeout(() => {
+
+    //   mymap.eachLayer(function () {
+    //     console.log('layer!')
+    //   })
+    // }, 10000)
+
+  }
   render () {
     return (
     <div className="mapWrap">

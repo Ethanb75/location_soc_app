@@ -1,3 +1,9 @@
+* {
+  font-family: 'Source Sans Pro', sans-serif;
+} 
+
+
+
 /*Post Styles*/
 .likesWrap {
   display: flex;
@@ -114,22 +120,39 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 2.23rem;
+  box-sizing: border-box;
+  color: whitesmoke;
 }
 
 .Input form {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  
+}
+
+.Input textarea {
+  border-radius: 6px;
 }
 
 .InputBtns {
-  display: flex;
+  /*display: flex;*/
   flex-grow: 1;
-  flex-direction: row;
+  /*flex-direction: row;*/
+  margin-top: 1.6rem;
+  color: whitesmoke;
 }
 
 .InputBtns button, .InputBtns [type="submit"] {
   flex-grow: 1;
+  background: transparent;
+  border: 1px solid whitesmoke;
+  border-radius: 5px;
+  cursor: pointer;
+  color: whitesmoke;
+  padding: .6rem 2.2rem;
+  font-size: 1.2rem;
 }
 
 .messageBox {

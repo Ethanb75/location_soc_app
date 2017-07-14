@@ -44,10 +44,13 @@ class App extends Component {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng=${crds.latitude},${crds.longitude}&key=AIzaSyCFQPdbxrIDRAJqXzWrcLO840z299fr418`).then(function(response) {
       return response.json();
     }).then(function(json) {
+      
+      //return the city name closest to user
       return json.results[0].address_components[2].long_name;
     }).then(city => {
       this.setState({city});
       firebase.database().ref(`cities/${city}`).on('value', snapshot => {
+        
         //return the snapshot
         let cityList = snapshot.val();
         if (this.state.cityList === undefined) {
@@ -130,10 +133,10 @@ class App extends Component {
           </div>
           <div className="Nav">
             <div className="mapBtn">
-              <i className="fa fa-user fa-3x" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
+              <i className="fa fa-user fa-2x" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
             </div>
             <div className="msgBtn">
-              <i className="fa fa-comments fa-3x" onClick={
+              <i className="fa fa-comments fa-2x" onClick={
                   el => {
                     this.setState({ inputOpen: !this.state.inputOpen });
                     this.toggleActive(el.target)
@@ -141,7 +144,7 @@ class App extends Component {
               } aria-hidden="true"></i>
             </div>
             <div className="profileBtn">
-              <i className="fa fa-globe fa-3x active_btn" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
+              <i className="fa fa-globe fa-2x active_btn" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
             </div>
           </div>
         </div>

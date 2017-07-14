@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import uuid from 'uuid/v1';
 import firebase from './firebase';
+
 
 export default class Input extends Component {
   state = {
-    uuid: 'blah123'
+    uuid: uuid()
   }
   sumbitMessage (e) {
     e.preventDefault();
+
+    //get value and set textbox to empty
     let message = e.target.children[1].value;
     e.target.children[1].value = '';
     
@@ -21,10 +25,9 @@ export default class Input extends Component {
       },
       message,
       username: 'bobby'
-    }).then((uuid) => {
-     console.log(uuid);
-     console.log('city entry')
-     firebase.database().ref(`cities/${this.props.city}/${this.props.cityList.length}`).set(this.state.uuid)
+    }).then(() => {
+
+        firebase.database().ref(`cities/${this.props.city}/${this.props.cityList.length}`).set(this.state.uuid)
     });
 
   }
@@ -40,6 +43,10 @@ export default class Input extends Component {
     background: '#5B7789',
     transform: 'translateY(-100%)',
     transition: 'all .5s ease-out'
+  }
+
+  componentDidMount () {
+    // console.log(uuid());
   }
 
   render () {
