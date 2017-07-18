@@ -69,7 +69,6 @@ export default class Input extends Component {
             }} placeholder="I'm having a blast doing..."></textarea>
             <div className="InputBtns">
               <input type="submit" value="Post Message"/>
-              <button>Cancel</button>
             </div>
           </form>
         </div>
@@ -92,7 +91,6 @@ export default class Input extends Component {
             }} placeholder="I'm having a blast doing..."></textarea>
             <div className="InputBtns">
               <input type="submit" value="Post Message"/>
-              <button>Cancel</button>
             </div>
           </form>
         </div>

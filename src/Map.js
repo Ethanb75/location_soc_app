@@ -40,6 +40,7 @@ export default class Map extends Component {
     uidList.forEach((el, i) => {
       firebase.database().ref(`posts/${el}`).on('value', snapshot => {
         let post = snapshot.val();
+
         // console.log(snapshot.val())
         let checkPost = document.querySelector(`[data-uid="${el}"]`);
         if (checkPost === null) {
@@ -63,8 +64,9 @@ export default class Map extends Component {
             </div>
           `);
           marker.on('click', function (e) {
-            e.target.opacity = .4
+            console.log(e);
           });
+          console.log('marker: ', marker)
           } else {
             checkPost.children[2].children[0].textContent = post.likes;
           }

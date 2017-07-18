@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 .postBody {
-  font-size: 21px;
+  font-size: 24px;
 }
 .post hr {
   width: 89%
@@ -35,6 +35,10 @@
 .active_btn {
   border-bottom: 4px solid whitesmoke;
   color: whitesmoke;
+  animation-name: fadeClick;
+  animation-timing-function: linear;
+  animation-direction: forwards;
+  animation-iteration-count: 1;
 }
 
 .Nav i {
@@ -59,15 +63,15 @@
 }
 
 .mapBtn {
-  background: #967372;
+  background: #30B9C2;
 }
 
 .msgBtn {
-  background: #5B7789;
+  background: #39DDE9;
 }
 
 .profileBtn {
-  background: #D5D583;
+  background: #36D1DC;
 }
 
 
@@ -96,7 +100,7 @@
 }
 
 .flex {
-  flex-grow: 15;
+  flex-grow: 30;
   display: flex;
   position: relative;
 }
@@ -143,15 +147,14 @@
   margin-top: 1.6rem;
   color: whitesmoke;
 }
-
-.InputBtns button, .InputBtns [type="submit"] {
+.InputBtns [type="submit"] {
   flex-grow: 1;
   background: transparent;
   border: 1px solid whitesmoke;
   border-radius: 5px;
   cursor: pointer;
   color: whitesmoke;
-  padding: .6rem 2.2rem;
+  padding: .6rem 2rem;
   font-size: 1.2rem;
 }
 
@@ -185,5 +188,16 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes fadeClick {
+  from { 
+    color: whitesmoke;
+    border-bottom: 4px solid whitesmoke;
+  }
+  to {
+    color: rgb(15,15,15);
+    border-bottom: 4px solid rgb(15,15,15)  
+  }
 }
 

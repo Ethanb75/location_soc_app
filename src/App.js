@@ -21,6 +21,7 @@ class App extends Component {
     crds: undefined,
     cityList: undefined
   }
+
   getPermision (callback) {
     // let that = this;
     if (navigator.geolocation) {
@@ -38,6 +39,7 @@ class App extends Component {
       })
     }
   }
+
   findLocation (crds) {
     let key =  'AIzaSyCFQPdbxrIDRAJqXzWrcLO840z299fr418';
     
@@ -85,6 +87,9 @@ class App extends Component {
     }, 8000)
   }
 
+  componentDidUpdate () {
+    console.log(this.state.cityList)
+  }
 
   toggleActive (target) {
     let old = document.getElementsByClassName('active_btn')[0];
@@ -108,9 +113,12 @@ class App extends Component {
             position: 'absolute',
             justifyContent: 'center',
             alignItems: 'center',
-            fontSize: '40px'
-
-          }}>Loading . . .</div>
+            fontSize: '40px',
+            width: '100%',
+            height: '100%'
+          }}>
+            <i className="fa fa-refresh fa-spin fa-5x fa-fw"></i>
+          </div>
         </div>
       )
     } else {
