@@ -140,19 +140,21 @@ class App extends Component {
             <Map cityList={cityList} crds={this.state.crds} />
           </div>
           <div className="Nav">
-            <div className="mapBtn">
-              <i className="fa fa-user fa-2x" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
-            </div>
-            <div className="msgBtn">
-              <i className="fa fa-comments fa-2x" onClick={
-                  el => {
-                    this.setState({ inputOpen: !this.state.inputOpen });
-                    this.toggleActive(el.target)
-                  }
-              } aria-hidden="true"></i>
-            </div>
-            <div className="profileBtn">
-              <i className="fa fa-globe fa-2x active_btn" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
+            <div className="NavWrap">
+              <div className="mapBtn">
+                <i className="fa fa-user fa-2x" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
+              </div>
+              <div className="msgBtn">
+                <i className="fa fa-comments fa-2x" onClick={
+                    el => {
+                      this.setState({ inputOpen: !this.state.inputOpen });
+                      this.toggleActive(el.target)
+                    }
+                } aria-hidden="true"></i>
+              </div>
+              <div className="profileBtn">
+                <i className="fa fa-globe fa-2x active_btn" onClick={el => this.toggleActive(el.target)} aria-hidden="true"></i>
+              </div>
             </div>
           </div>
         </div>

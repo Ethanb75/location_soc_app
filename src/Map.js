@@ -64,9 +64,8 @@ export default class Map extends Component {
             </div>
           `);
           marker.on('click', function (e) {
-            console.log(e);
+            console.log(e.target);
           });
-          console.log('marker: ', marker)
           } else {
             checkPost.children[2].children[0].textContent = post.likes;
           }
